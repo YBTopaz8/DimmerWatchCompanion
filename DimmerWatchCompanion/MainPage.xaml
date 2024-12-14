@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DimmerWatchCompanion.MainPage"
+             xmlns:models="clr-namespace:DimmerWatchCompanion.Utils"
+             xmlns:local="clr-namespace:DimmerWatchCompanion"
+            BackgroundColor="#1E1E1E"
+            x:Name="myPage"
+            xmlns:dx="http://schemas.devexpress.com/maui"
+             Shell.NavBarIsVisible="False"
+             x:DataType="local:MainPageVM">
+
+    <dx:DXStackLayout Margin="0,30">
+        <SearchBar Placeholder="Dimmer Search..."  HorizontalOptions="Center" HeightRequest="15" WidthRequest="190"
+                   FontSize="13" TextColor="DarkSlateBlue" 
+                   x:Name="SearchBar" TextChanged="SearchBar_TextChanged"/>
+        <dx:DXScrollView BackgroundColor="Transparent" Margin="10,10">
+            <dx:DXStackLayout Orientation="Vertical">
+
+                <dx:DXCollectionView ItemsSource="{Binding DisplayedSongs}" SelectionMode="Single"
+                                     x:Name="SongsColView"
+                    BackgroundColor="Transparent" ItemSpacing="2" IsScrollBarVisible="False">
+                    <dx:DXCollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:SongModelView">
+                            <dx:DXButton BackgroundColor="Transparent" CornerRadius="15"
+                            PressedBackgroundColor="DarkSlateBlue">
+                                <dx:DXButton.Triggers>
+                                    <DataTrigger TargetType="dx:DXButton" Binding="{Binding IsCurrentPlayingHighlight}" Value="True">
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                        <Setter Property="BorderColor" Value="DarkSlateBlue"/>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="dx:DXButton" Binding="{Binding IsCurrentPlayingHighlight}" Value="False">
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                        <Setter Property="BorderColor" Value="Transparent"/>
+                                    </DataTrigger>
+                                </dx:DXButton.Triggers>
+                                <dx:DXStackLayout Orientation="Vertical" >
+                                    <dx:DXStackLayout.Resources>
+                                        <Style TargetType="Label">
+                                            <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                                            <Setter Property="TextColor" Value="White"/>
+                                        </Style>
+                                    </dx:DXStackLayout.Resources>
+                                    <dx:DXStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                                    </dx:DXStackLayout.GestureRecognizers>
+                                    <Label Text="{Binding Title, StringFormat='{0}'}" FontSize="12"/>
+                                    <Label Text="{Binding ArtistName, StringFormat='{0}'}" FontSize="12"
+                                           HorizontalTextAlignment="Center"/>                                    
+                                    <BoxView HeightRequest="1"/>
+                                </dx:DXStackLayout>
+                            </dx:DXButton>
+                        </DataTemplate>
+                    </dx:DXCollectionView.ItemTemplate>
+                </dx:DXCollectionView>
+                <Label Text="{Binding DisplayedSongs.Count}" HorizontalOptions="Center"/>
+                <Button Text="Try Again" WidthRequest="98" Clicked="Button_Clicked"/>
+            </dx:DXStackLayout>
+        </dx:DXScrollView>
+    </dx:DXStackLayout>
+
+    
+    
+        
+
+</ContentPage>
